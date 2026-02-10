@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Groupie Tracker - Artistes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/style.css?v=2">
+</head>
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="brand">Groupie Tracker</div>
+
+        <!-- FORMULAIRE FILTRES -->
+        <form class="search" method="get" action="/artists">
+
+            <div>
+                <label for="q">Artiste / Membre</label>
+                <input type="text" id="q" name="q" placeholder="Rechercher..." value="{{.Query}}">
+            </div>
+
+            <div>
+                <label for="year_min">Année min</label>
+                <input type="number" id="year_min" name="year_min" placeholder="1960" value="{{.YearMin}}">
+            </div>
+
+            <div>
+                <label for="year_max">Année max</label>
+                <input type="number" id="year_max" name="year_max" placeholder="2024" value="{{.YearMax}}">
+            </div>
+
+            <div>
+                <label for="members_min">Membres min</label>
+                <input type="number" id="members_min" name="members_min" placeholder="1" value="{{.MembersMin}}">
+            </div>
+
+            <button type="submit">Filtrer</button>
+        </form>
+    </div>
+
+    <!-- GRILLE ARTISTES -->
+    <div class="grid">
+        {{range .Artists}}
+        <div class="card">
+            <a href="/artist?id={{.ID}}">
+                <img src="{{.Image}}" alt="{{.Name}}">
+            </a>
+            <h3>
+                <a href="/artist?id={{.ID}}">{{.Name}}</a>
+            </h3>
+            <p><strong>Année de création :</strong> {{.CreationDate}}</p>
+            <p><strong>Premier album :</strong> {{.FirstAlbum}}</p>
+            <p><strong>Effectif :</strong> {{len .Members}}</p>
+        </div>
+        {{end}}
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        Affiche {{len .Artists}} artiste(s)
+    </div>
+
+</div>
+</body>
+</html>

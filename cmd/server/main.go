@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "Projet2_go_groupie_trackers/internal/server"
 
 func main() {
-	fmt.Println("Groupie Tracker server starting...")
+	server.Start()
 }

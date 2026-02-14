@@ -1,7 +1,7 @@
 /* =================== STYLE GLOBAL =================== */
 body {
     font-family: Inter, Roboto, Arial, sans-serif;
-    background: linear-gradient(135deg, #a8edea, #fed6e3); /* fond dégradé visible */
+    background: linear-gradient(315deg, #a8edea, #fed6e3); /* dégradé diagonal bas-gauche → haut-droit */
     color: #1a202c;
     margin: 0;
     padding: 0;

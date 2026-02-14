@@ -45,7 +45,9 @@
         {{range .Artists}}
         <div class="card">
             <a href="/artist?id={{.ID}}">
+                {{if ne .Name "Mamonas Assassinas"}}
                 <img src="{{.Image}}" alt="{{.Name}}">
+                {{end}}
             </a>
             <h3>
                 <a href="/artist?id={{.ID}}">{{.Name}}</a>

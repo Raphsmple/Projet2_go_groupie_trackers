@@ -11,7 +11,9 @@
 
     <!-- Nom + image -->
     <h1>{{.Artist.Name}}</h1>
+    {{if ne .Artist.Name "Mamonas Assassinas"}}
     <img src="{{.Artist.Image}}" width="250" alt="{{.Artist.Name}}">
+    {{end}}
 
     <!-- Informations générales -->
     <p><strong>Année de création :</strong> {{.Artist.CreationDate}}</p>

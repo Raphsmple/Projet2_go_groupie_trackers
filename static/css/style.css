@@ -1,71 +1,131 @@
-body{
-    font-family:Inter, Roboto, Arial, sans-serif;
-    background:#f7fafc;
-    color:#1a202c;
-    margin:0;
-    padding:0
+/* =================== STYLE GLOBAL =================== */
+body {
+    font-family: Inter, Roboto, Arial, sans-serif;
+    background: linear-gradient(135deg, #a8edea, #fed6e3); /* fond dégradé visible */
+    color: #1a202c;
+    margin: 0;
+    padding: 0;
 }
-.container{
-    max-width:1100px;
-    margin:32px auto;
-    padding:20px
+
+/* =================== CONTAINER =================== */
+.container {
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 20px;
 }
-.header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:20px
+
+/* =================== HEADER =================== */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
-.brand{
-    font-weight:700;
-    font-size:20px;
-    color:#111827
+.brand {
+    font-weight: 700;
+    font-size: 24px;
+    color: #111827;
 }
-.search{
-    display:flex;
-    gap:8px
+
+/* =================== FORMULAIRE =================== */
+.search {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
-.search input[type="text"]{
-    padding:10px 12px;
-    border-radius:8px;
-    border:1px solid #e5e7eb;
-    width:320px
+.search input[type="text"],
+.search input[type="number"] {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    width: 200px;
 }
-.search button{
-    padding:10px 12px;
-    border-radius:8px;
-    border:0;
-    background:#2563eb;
-    color:white
+.search button {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 0;
+    background: #3b82f6;
+    color: white;
+    cursor: pointer;
 }
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-    gap:16px
+.search button:hover {
+    background: #2563eb;
 }
-.card{
-    background:white;
-    padding:14px;
-    border-radius:8px;
-    box-shadow:0 4px 10px rgba(2,6,23,0.06)
+
+/* =================== GRILLE ARTISTES =================== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
 }
-.card img{
-    width:100%;
-    height:160px;
-    object-fit:cover;
-    border-radius:6px
+
+/* =================== CARTES ARTISTES =================== */
+.card {
+    background: #ffffffcc; /* blanc semi-transparent */
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.card h3{
-    margin:10px 0 6px;
-    font-size:18px
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
 }
-.card p{
-    margin:0;
-    font-size:13px;
-    color:#374151
+
+.card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
 }
-.footer{
-    margin-top:24px;
-    text-align:center;
-    color:#6b7280
+
+.card h3 {
+    margin: 10px 0 6px;
+    font-size: 18px;
+}
+
+.card p {
+    margin: 0;
+    font-size: 13px;
+    color: #374151;
+}
+
+/* =================== PAGE ARTISTE =================== */
+.card-artist {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 12px;
+    background: #ffffffcc; /* blanc semi-transparent */
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+.members, .concerts {
+    margin: 15px 0;
+}
+.members ul, .concerts ul {
+    list-style: none;
+    padding: 0;
+}
+.members li, .concerts li {
+    background: #e2e8f0;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+a {
+    text-decoration: none;
+    color: #3b82f6;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* =================== FOOTER =================== */
+.footer {
+    margin-top: 24px;
+    text-align: center;
+    color: #4b5563;
+    font-size: 14px;
 }

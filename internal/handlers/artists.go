@@ -44,12 +44,12 @@ type ArtistPage struct {
 	Concerts RelationData
 }
 
-// ==================== ROOT HANDLER ====================
+
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/artists", http.StatusFound)
 }
 
-// ==================== HANDLER LISTE DES ARTISTES ====================
+
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	// 1) API principale
 	respAPI, err := http.Get("https://groupietrackers.herokuapp.com/api")
@@ -150,7 +150,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, data)
 }
 
-// ==================== HANDLER ARTISTE INDIVIDUEL ====================
+
 func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	if id == "" {

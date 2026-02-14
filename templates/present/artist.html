@@ -3,28 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{{.Artist.Name}}</title>
-    <style>
-        body { font-family: Arial, sans-serif; background:#f5f5f5; padding:20px; }
-        .card {
-            background:white;
-            max-width:600px;
-            margin:auto;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
-        }
-        img { display:block; margin:auto; border-radius:10px; }
-        h1, h2, h3 { text-align:center; }
-        .members, .concerts { margin:15px 0; }
-        ul { list-style:none; padding:0; }
-        li { background:#eee; margin:5px 0; padding:8px; border-radius:5px; }
-        a { text-decoration:none; color:#007bff; }
-        a:hover { text-decoration:underline; }
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css?v=2">
 </head>
 <body>
 
-<div class="card">
+<div class="card-artist">
 
     <!-- Nom + image -->
     <h1>{{.Artist.Name}}</h1>

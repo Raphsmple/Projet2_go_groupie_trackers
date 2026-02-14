@@ -10,7 +10,15 @@ import (
 	"strings"
 )
 
-// Struct pour un artiste
+// Struct API principale
+type API struct {
+	Artists   string `json:"artists"`
+	Locations string `json:"locations"`
+	Dates     string `json:"dates"`
+	Relation  string `json:"relation"`
+}
+
+// Struct artiste
 type Artist struct {
 	ID           int      `json:"id"`
 	Name         string   `json:"name"`
@@ -20,7 +28,7 @@ type Artist struct {
 	CreationDate int      `json:"creationDate"`
 }
 
-// Struct pour les concerts / relations
+// Struct relation concerts
 type RelationData struct {
 	ID             int                 `json:"id"`
 	DatesLocations map[string][]string `json:"datesLocations"`
@@ -30,26 +38,60 @@ type RelationResponse struct {
 	Index []RelationData `json:"index"`
 }
 
+// Struct pour passer les données à artist.html
+type ArtistPage struct {
+	Artist   Artist
+	Concerts RelationData
+}
+
+// ==================== ROOT HANDLER ====================
+func RootHandler(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/artists", http.StatusFound)
+}
+
 // ==================== HANDLER LISTE DES ARTISTES ====================
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
-	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+	// 1) API principale
+	respAPI, err := http.Get("https://groupietrackers.herokuapp.com/api")
 	if err != nil {
 		http.Error(w, "Erreur API: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
+	defer respAPI.Body.Close()
+
+	bodyAPI, err := io.ReadAll(respAPI.Body)
 	if err != nil {
-		http.Error(w, "Erreur lecture API: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Lecture API: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var api API
+	if err := json.Unmarshal(bodyAPI, &api); err != nil {
+		http.Error(w, "Parse API: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// 2) Liste artistes
+	respArtists, err := http.Get(api.Artists)
+	if err != nil {
+		http.Error(w, "Erreur artistes: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer respArtists.Body.Close()
+
+	bodyArtists, err := io.ReadAll(respArtists.Body)
+	if err != nil {
+		http.Error(w, "Lecture artistes: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	var artists []Artist
-	if err := json.Unmarshal(body, &artists); err != nil {
-		http.Error(w, "Erreur parse JSON: "+err.Error(), http.StatusInternalServerError)
+	if err := json.Unmarshal(bodyArtists, &artists); err != nil {
+		http.Error(w, "Parse artistes: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	// 3) Filtrage
 	q := strings.ToLower(strings.TrimSpace(r.URL.Query().Get("q")))
 	yearMin, _ := strconv.Atoi(r.URL.Query().Get("year_min"))
 	yearMax, _ := strconv.Atoi(r.URL.Query().Get("year_max"))
@@ -58,7 +100,6 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	var filtered []Artist
 	for _, a := range artists {
 		match := true
-
 		if q != "" {
 			match = strings.Contains(strings.ToLower(a.Name), q)
 			if !match {
@@ -73,24 +114,22 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		if !match {
 			continue
 		}
-
 		if yearMin != 0 && a.CreationDate < yearMin {
 			continue
 		}
 		if yearMax != 0 && a.CreationDate > yearMax {
 			continue
 		}
-
 		if membersMin != 0 && len(a.Members) < membersMin {
 			continue
 		}
-
 		filtered = append(filtered, a)
 	}
 
+	// 4) Template
 	tmpl, err := template.ParseFiles("templates/artiste.html")
 	if err != nil {
-		http.Error(w, "Erreur template: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Template: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -119,12 +158,47 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, _ := http.Get("https://groupietrackers.herokuapp.com/api/artists")
-	body, _ := io.ReadAll(resp.Body)
-	defer resp.Body.Close()
-	var artists []Artist
-	json.Unmarshal(body, &artists)
+	// API principale
+	respAPI, err := http.Get("https://groupietrackers.herokuapp.com/api")
+	if err != nil {
+		http.Error(w, "Erreur API: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer respAPI.Body.Close()
 
+	bodyAPI, err := io.ReadAll(respAPI.Body)
+	if err != nil {
+		http.Error(w, "Lecture API: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var api API
+	if err := json.Unmarshal(bodyAPI, &api); err != nil {
+		http.Error(w, "Parse API: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Liste artistes
+	respArtists, err := http.Get(api.Artists)
+	if err != nil {
+		http.Error(w, "Erreur artistes: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer respArtists.Body.Close()
+
+	bodyArtists, err := io.ReadAll(respArtists.Body)
+	if err != nil {
+		http.Error(w, "Lecture artistes: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var artists []Artist
+	if err := json.Unmarshal(bodyArtists, &artists); err != nil {
+		http.Error(w, "Parse artistes: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Chercher l'artiste
 	var selected Artist
 	found := false
 	for _, a := range artists {
@@ -139,11 +213,25 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	respRel, _ := http.Get("https://groupietrackers.herokuapp.com/api/relation")
-	bodyRel, _ := io.ReadAll(respRel.Body)
+	// Relations concerts
+	respRel, err := http.Get(api.Relation)
+	if err != nil {
+		http.Error(w, "Erreur relations: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
 	defer respRel.Body.Close()
+
+	bodyRel, err := io.ReadAll(respRel.Body)
+	if err != nil {
+		http.Error(w, "Lecture relations: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	var relations RelationResponse
-	json.Unmarshal(bodyRel, &relations)
+	if err := json.Unmarshal(bodyRel, &relations); err != nil {
+		http.Error(w, "Parse relations: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	var rel RelationData
 	for _, r := range relations.Index {
@@ -153,15 +241,16 @@ func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	tmpl, _ := template.ParseFiles("templates/present/artist.html")
+	// Template
+	tmpl, err := template.ParseFiles("templates/present/artist.html")
+	if err != nil {
+		http.Error(w, "Template: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-	data := struct {
-		Artist   Artist
-		Concerts RelationData
-	}{
+	data := ArtistPage{
 		Artist:   selected,
 		Concerts: rel,
 	}
-
 	tmpl.Execute(w, data)
 }

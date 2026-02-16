@@ -53,7 +53,7 @@
                 <a href="/artist?id={{.ID}}">{{.Name}}</a>
             </h3>
             <p><strong>Année de création :</strong> {{.CreationDate}}</p>
-            <p><strong>Premier album :</strong> {{.FirstAlbum}}</p>
+            <p><strong>First album :</strong{{>.FirstAlbum}}</p>
             <p><strong>Effectif :</strong> {{len .Members}}</p>
         </div>
         {{end}}

@@ -1,9 +1,9 @@
 package server
 
 import (
+	"Projet2_go_groupie_trackers/internal/handlers"
 	"fmt"
 	"net/http"
-	"Projet2_go_groupie_trackers/internal/handlers"
 )
 
 // Démarre le serveur HTTP
@@ -17,5 +17,5 @@ func Start() {
 	http.HandleFunc("/artist", handlers.ArtistHandler)
 
 	fmt.Println("Server running on http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8000", nil)
 }

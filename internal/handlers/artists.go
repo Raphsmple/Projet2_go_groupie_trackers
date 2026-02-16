@@ -44,11 +44,9 @@ type ArtistPage struct {
 	Concerts RelationData
 }
 
-
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/artists", http.StatusFound)
 }
-
 
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	// 1) API principale
@@ -149,7 +147,6 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl.Execute(w, data)
 }
-
 
 func ArtistHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")

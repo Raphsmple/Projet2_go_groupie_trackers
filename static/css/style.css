@@ -1,4 +1,4 @@
-/* =================== STYLE GLOBAL =================== */
+/* STYLE GLOBAL*/
 body {
     font-family: Inter, Roboto, Arial, sans-serif;
     background: linear-gradient(315deg, #a8edea, #fed6e3); /* dégradé diagonal bas-gauche → haut-droit */
@@ -7,14 +7,14 @@ body {
     padding: 0;
 }
 
-/* =================== CONTAINER =================== */
+/* CONTENEUR PRINCIPAL*/
 .container {
     max-width: 1100px;
     margin: 32px auto;
     padding: 20px;
 }
 
-/* =================== HEADER =================== */
+/* EN-TÊTE*/
 .header {
     display: flex;
     align-items: center;
@@ -27,7 +27,7 @@ body {
     color: #111827;
 }
 
-/* =================== FORMULAIRE =================== */
+/*FORMULAIRE DE RECHERCHE */
 .search {
     display: flex;
     gap: 10px;
@@ -52,14 +52,14 @@ body {
     background: #2563eb;
 }
 
-/* =================== GRILLE ARTISTES =================== */
+/* GRILLE DES ARTISTES */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 16px;
 }
 
-/* =================== CARTES ARTISTES =================== */
+/* CARTES DES ARTISTES*/
 .card {
     background: #ffffffcc; /* blanc semi-transparent */
     padding: 16px;
@@ -90,7 +90,7 @@ body {
     color: #374151;
 }
 
-/* =================== PAGE ARTISTE =================== */
+/* PAGE DÉTAIL D’UN ARTISTE */
 .card-artist {
     max-width: 600px;
     margin: auto;
@@ -122,7 +122,7 @@ a:hover {
     text-decoration: underline;
 }
 
-/* =================== FOOTER =================== */
+/*PIED DE PAGE*/
 .footer {
     margin-top: 24px;
     text-align: center;
